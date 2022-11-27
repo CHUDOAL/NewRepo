@@ -1,7 +1,10 @@
 ﻿#include <string>
+#include <fstream>
 //#include "stdafx.h"
 #include <iostream>
 #include <sstream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 using std::endl;
 using std::cout;
@@ -75,11 +78,78 @@ public:
 
     }
 
+    void Age() 
+    {
+        
+        
+        vector<ages> Kont
+        {
+            ages ("Иван", "Иванов", 32),
+            ages ("Василий", "Васечкин", 13),
+            ages ("Петя", "Петров", 34),
+            ages ("Маша", "Марьевна", 43),
+            ages ("Даша", "Дарьева", 65),
+            ages ("Иван", "Петров", 22),
+            ages ("Петя", "Иванов", 43),
+        };
+        
+
+        
+      
+
+        cout << "\nКонструктор : \n\n";
+
+        for (auto element : Kont) {
+            cout << element.surname << " " <<  element.name << " (" << element.agez << " Лет)"  << endl;
+        }
+
+        sort(Kont.begin(), Kont.end(), [](const ages &p1, const ages &p2)
+            {
+                return p1.surname < p2.surname;
+            });
+
+        cout << "\nСортировка (Фамилия): \n\n";
+
+        for (auto element : Kont) {
+            cout <<element.surname  << " " << element.name << " (" << element.agez << " Лет)" << endl;
+        }
+
+        sort(Kont.begin(), Kont.end(), [](const ages& p1, const ages& p2)
+            {
+                return p1.agez < p2.agez;
+            });
+
+        cout << "\nСортировка (Возраст): \n\n";
+
+        for (auto element : Kont) {
+            cout << element.surname << " " << element.name << " (" << element.agez << " Лет)" << endl;
+        }
+
+        auto result = find_if(Kont.begin(), Kont.end(), [](const ages& p1)
+            {
+                return p1.agez < 18;
+            });
+
+        cout << "\nПоиск людей младше 18 лет: \n\n";
+
+        
+            
+        if (result != Kont.end()) {
+            cout << "Люди малдше 18 лет найдены" << endl;
+        }
+        else {
+            cout << "Люди малдше 18 лет не найдены" << endl;
+        }
+
+        
+    }
+
     private:
     
 // User
         string user_name;
         string user_surname;
+
 // Tovar
         string* tovar_zakaz;
         int size;
@@ -90,9 +160,10 @@ public:
 // Class
         class user
         {
-        private:
+        public:
             string name;
             string surname;
+            
 
         public:
             user(string name, string surname):name(name),surname(surname){}
@@ -108,7 +179,45 @@ public:
             void getUser()
             {
                 cout << name << " " << surname << ",  по адресу ";
+               
             }
+        };
+
+        class ages : public user
+        {
+        public:
+            ages(string name, string surname, int agez) : user(name, surname), agez(agez)
+            {
+
+            }
+
+            void print()
+            {
+                cout << endl << "Name №2 : " << name << endl;
+            }
+
+            void getUser(int qq)
+            {
+                cout << name << " " << surname << ", Age: " << agez << endl;
+                
+            }
+
+            void getUser(string qq)
+            {
+                cout << "User Age: " << agez << endl;
+                
+            }
+
+            void UserInf()
+            {
+                cout << "\n \nИнфориация о пользователе. Имя: " << name << " Фамилия: " << surname << " Возраст: " << agez << endl;
+                
+            }
+
+        public:
+            int agez;
+            
+           
         };
 
         class tovar
@@ -209,8 +318,8 @@ int main(int argc, char* argv[])
     setlocale(LC_ALL, "rus");
     
     magazin mag;
-
-
+    
+    
 
     int gg;
     gg = 0;
@@ -223,7 +332,9 @@ int main(int argc, char* argv[])
     mag.setDate();
 
     mag.getUser(); mag.getAdres(); mag.getTovars(); mag.getDate();
-    
+    cout << "\n";
+    mag.Age();
+   
     
  
     return 0;
